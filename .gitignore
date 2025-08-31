@@ -1,0 +1,63 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+develop-eggs/
+eggs/
+sdist/
+var/
+wheels/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# IDE and editor configuration
+.idea/
+.vscode/
+*.project
+*.pydevproject
+*.sublime-workspace
+*.swp
+*.swo
+
+# Streamlit-specific files
+.streamlit/
+
+# Testing and coverage reports
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+
+# Operating System generated files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+logs/
+
+# Local data files (e.g., downloaded stock data, temporary outputs)
+*.csv
+*.json
+*.db
+*.sqlite3
+
+# Environment variables
+.env
+.env.*
