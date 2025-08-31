@@ -194,4 +194,4 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 ---
 
-<p align="center">Developed by <a href="https://github.com/Sbaid1025">Sbaid1025</a></p>
+<p align="center">Developed by <a href="https://github.com/Saraid10">Saraid10</a></p>
