@@ -2,8 +2,7 @@
 
 A professional-grade backtesting platform for evaluating multiple technical trading strategies against historical stock data. Built with Python and Streamlit, this application allows traders and analysts to compare strategy performance metrics and visualize trade signals.
 
-
-*Replace this with a screenshot or GIF of your application.*
+**[➡️ View the Live Demo Here](https://comprehensive-stock-backtester.streamlit.app/)**
 
 ---
 
@@ -32,7 +31,7 @@ A professional-grade backtesting platform for evaluating multiple technical trad
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/Sbaid1025/stock-backtester.git
+    git clone https://github.com/Saraid10/stock-backtester.git
     cd stock-backtester
     ```
 
@@ -52,7 +51,7 @@ A professional-grade backtesting platform for evaluating multiple technical trad
     pip install -r requirements.txt
     ```
 
-### Running the Application
+### Running the Application Locally
 
 Launch the application with the following command:
 ```bash
@@ -134,41 +133,10 @@ stock-backtester/
 ├── app.py                      # Main Streamlit application UI and logic
 │
 ├── backtest/                   # Core backtesting engine components
-│   ├── __init__.py
-│   ├── data.py                 # Handles historical data loading and streaming
-│   ├── engine.py               # Main backtest simulation loop
-│   ├── event.py                # Defines all event types (Market, Signal, etc.)
-│   ├── execution.py            # Simulates order execution
-│   ├── performance.py          # Calculates performance metrics
-│   └── portfolio.py            # Manages positions, capital, and risk
+│   └── (All engine files...)
 │
 ├── strategies/                 # All trading strategy implementations
-│   ├── __init__.py
-│   ├── aroon_indicator_strategy.py
-│   ├── atr_channel_strategy.py
-│   ├── awesome_oscillator_strategy.py
-│   ├── bollinger_bands_strategy.py
-│   ├── buy_and_hold.py
-│   ├── cci_strategy.py
-│   ├── chaikin_money_flow_strategy.py
-│   ├── dema_crossover_strategy.py
-│   ├── donchian_channel_strategy.py
-│   ├── ichimoku_cloud_strategy.py
-│   ├── keltner_channel_strategy.py
-│   ├── ma_ribbon_strategy.py
-│   ├── macd_strategy.py
-│   ├── money_flow_index_strategy.py
-│   ├── on_balance_volume_strategy.py
-│   ├── parabolic_sar_strategy.py
-│   ├── rate_of_change_strategy.py
-│   ├── rsi_strategy.py
-│   ├── sma_crossover.py
-│   ├── stochastic_oscillator_strategy.py
-│   ├── tema_crossover_strategy.py
-│   ├── trix_strategy.py
-│   ├── vortex_indicator_strategy.py
-│   ├── vwap_crossover_strategy.py
-│   └── williams_r_strategy.py
+│   └── (All strategy files...)
 │
 ├── .gitignore                  # Specifies files for Git to ignore
 ├── requirements.txt            # List of Python package dependencies
@@ -180,11 +148,11 @@ stock-backtester/
 
 ## 📝 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. Copyright (c) 2025 Saraid10. See the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the issues page if you want to contribute.
+Contributions, issues, and feature requests are welcome! Please feel free to check the issues page if you want to contribute.
 
 ## 🔗 Acknowledgments
 
