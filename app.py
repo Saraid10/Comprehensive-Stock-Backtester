@@ -45,8 +45,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- Strategy Registry ---
-STRATEGY_REGISTRY = {
+# --- Strategy Registry with Default Parameters ---
+DEFAULT_STRATEGY_REGISTRY = {
     "Buy and Hold": {"class": BuyAndHoldStrategy, "params": {}},
     "SMA Crossover (50/200)": {"class": SMACrossoverStrategy, "params": {"short_window": 50, "long_window": 200}},
     "DEMA Crossover (50/200)": {"class": DEMACrossoverStrategy, "params": {"short_period": 50, "long_period": 200}},
@@ -94,6 +94,53 @@ start_date = st.sidebar.date_input("Start Date", datetime(2020, 1, 1))
 end_date = st.sidebar.date_input("End Date", datetime.now())
 initial_capital = st.sidebar.number_input("Initial Capital", 1000, 1000000, 100000, step=1000)
 
+# --- Position Sizing Settings ---
+st.sidebar.header("Position Sizing")
+position_size_pct = st.sidebar.slider("Position Size (% of Portfolio)", 1, 100, 5, 1, 
+                                    help="What percentage of the portfolio to invest in each position")
+
+# Display warning for aggressive position sizing
+if position_size_pct > 20:
+    st.sidebar.warning("⚠️ **High Risk Alert**: Position sizes above 20% reduce diversification and significantly increase risk. This approach is not recommended for most trading strategies.", icon="⚠️")
+elif position_size_pct > 10:
+    st.sidebar.info("ℹ️ Position sizes between 10-20% represent an aggressive approach with higher risk.", icon="ℹ️")
+
+# --- Strategy Parameter Customization ---
+st.sidebar.header("Strategy Parameters")
+
+# Create a copy of the default registry that we'll modify with user inputs
+STRATEGY_REGISTRY = DEFAULT_STRATEGY_REGISTRY.copy()
+
+# Create expandable sections for each strategy with parameter controls
+strategy_toggles = {}
+for strategy_name, config in DEFAULT_STRATEGY_REGISTRY.items():
+    strategy_toggles[strategy_name] = st.sidebar.checkbox(f"Run {strategy_name}", value=True)
+    
+    if strategy_toggles[strategy_name]:
+        with st.sidebar.expander(f"Customize {strategy_name}"):
+            custom_params = {}
+            for param_name, param_value in config["params"].items():
+                if isinstance(param_value, int):
+                    custom_params[param_name] = st.number_input(
+                        f"{param_name}", 
+                        min_value=1 if 'period' in param_name else None,
+                        value=param_value, 
+                        key=f"{strategy_name}_{param_name}"
+                    )
+                elif isinstance(param_value, float):
+                    custom_params[param_name] = st.number_input(
+                        f"{param_name}", 
+                        value=param_value, 
+                        format="%.2f", 
+                        step=0.1, 
+                        key=f"{strategy_name}_{param_name}"
+                    )
+                else:
+                    custom_params[param_name] = param_value
+                    
+            # Update the registry with custom parameters
+            STRATEGY_REGISTRY[strategy_name]["params"] = custom_params
+
 run_button = st.sidebar.button("Run All Strategies", type="primary")
 
 # --- Main Application Area ---
@@ -110,7 +157,10 @@ if run_button and ticker:
         progress_bar = st.progress(0)
         status_text = st.empty()
         
-        for i, (name, config) in enumerate(STRATEGY_REGISTRY.items()):
+        # Filter strategies based on toggles
+        active_strategies = {name: config for name, config in STRATEGY_REGISTRY.items() if strategy_toggles[name]}
+        
+        for i, (name, config) in enumerate(active_strategies.items()):
             status_text.text(f"Running backtest for: {name}...")
             
             # --- Initialize and Run Backtest for each strategy ---
@@ -119,7 +169,8 @@ if run_button and ticker:
             
             data_handler = HistoricDataHandler(events, symbol_list, data)
             strategy = config["class"](data_handler, events, **config["params"])
-            portfolio = Portfolio(data_handler, events, start_date, initial_capital)
+            # Pass position size percentage to the Portfolio
+            portfolio = Portfolio(data_handler, events, start_date, initial_capital, position_size_pct/100.0)
             execution_handler = SimulatedExecutionHandler(events, data_handler)
 
             backtest = Backtest(data_handler, strategy, portfolio, execution_handler)
@@ -134,7 +185,7 @@ if run_button and ticker:
                 "trade_log": trade_log
             })
             
-            progress_bar.progress((i + 1) / len(STRATEGY_REGISTRY))
+            progress_bar.progress((i + 1) / len(active_strategies))
 
         status_text.text("All backtests complete! Compiling results...")
 
